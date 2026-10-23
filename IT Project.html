@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>StudyBuddy</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: rgb(244, 244, 244);
+            color: rgb(51, 51, 51);
+        }
+    
+        header {
+            background-color: rgb(255, 255, 255);
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 7%;
+            border-bottom: 1px solid rgb(221, 221, 221);
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            color: rgb(35, 79, 62);
+            cursor: pointer;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: rgb(51, 51, 51);
+            margin-left: 25px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        nav a:hover, nav a.active {
+            color: rgb(35, 79, 62);
+            border-bottom: 2px solid rgb(35, 79, 62);
+            padding-bottom: 2px;
+        }
+
+        .page-section {
+            display: none;
+        }
+
+        .page-section.active {
+            display: block;
+        }
+
+        .hero {
+            width: 90%;
+            min-height: 350px;
+            margin: 20px auto;
+            background-color: rgb(35, 79, 62);
+            display: flex;
+            align-items: center;
+            padding: 40px 7%;
+            color: rgb(255, 255, 255);
+        }
+
+        .hero-text h1 {
+            font-size: 45px;
+            margin-bottom: 10px;
+        }
+
+        .hero-text p {
+            font-size: 18px;
+            margin-bottom: 25px;
+        }
+
+        .hero button {
+            padding: 12px 25px;
+            border: none;
+            background-color: rgb(212, 154, 58);
+            color: rgb(255, 255, 255);
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .hero button:hover {
+            background-color: rgb(181, 127, 44);
+        }
+
+        .main {
+            width: 90%;
+            margin: 30px auto;
+        }
+
+        .title {
+            background-color: rgb(35, 79, 62);
+            color: rgb(255, 255, 255);
+            padding: 12px 18px;
+            margin-bottom: 15px;
+        }
+
+        .planner {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+        }
+
+        .tasks,
+        .side {
+            background-color: rgb(255, 255, 255);
+            padding: 20px;
+            border: 1px solid rgb(221, 221, 221);
+        }
+
+        .task-form {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr auto;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        input,
+        select,
+        textarea {
+            padding: 11px;
+            border: 1px solid rgb(204, 204, 204);
+            font-family: Arial, sans-serif;
+        }
+
+        .add-button {
+            background-color: rgb(35, 79, 62);
+            color: rgb(255, 255, 255);
+            border: none;
+            padding: 10px 18px;
+            cursor: pointer;
+        }
+
+        .search {
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        .task {
+            border: 1px solid rgb(221, 221, 221);
+            padding: 12px;
+            margin-bottom: 10px;
+            background-color: rgb(250, 250, 250);
+            overflow: hidden;
+        }
+
+        .delete-button {
+            background-color: rgb(167, 25, 61);
+            color: rgb(255, 255, 255);
+            border: none;
+            padding: 7px 12px;
+            cursor: pointer;
+            float: right;
+        }
+
+        .counter {
+            text-align: center;
+            border-bottom: 1px solid rgb(221, 221, 221);
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+        }
+
+        .counter h2 {
+            color: rgb(35, 79, 62);
+        }
+
+        .counter-number {
+            font-size: 35px;
+            font-weight: bold;
+        }
+
+        .subjects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 15px;
+        }
+
+        .subject-card {
+            background-color: rgb(255, 255, 255);
+            border: 1px solid rgb(221, 221, 221);
+            padding: 20px;
+            border-left: 5px solid rgb(35, 79, 62);
+        }
+
+        .subject-card h3 {
+            margin-top: 0;
+            color: rgb(35, 79, 62);
+            font-size: 18px;
+            margin-bottom: 0;
+        }
+
+        .about-card {
+            background-color: rgb(255, 255, 255);
+            padding: 30px;
+            border: 1px solid rgb(221, 221, 221);
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .about-card h2 {
+            color: rgb(35, 79, 62);
+            margin-bottom: 15px;
+        }
+
+        .about-card p {
+            line-height: 1.6;
+            color: rgb(85, 85, 85);
+        }
+
+        .team-list {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgb(221, 221, 221);
+            text-align: left;
+            display: inline-block;
+        }
+
+        .team-list h3 {
+            color: rgb(35, 79, 62);
+            margin-bottom: 10px;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .team-list p {
+            margin: 5px 0;
+            color: rgb(85, 85, 85);
+        }
+
+        footer {
+            background-color: rgb(23, 56, 44);
+            color: rgb(255, 255, 255);
+            padding: 30px 7%;
+            margin-top: 50px;
+            text-align: center;
+        }
+
+        @media screen and (max-width: 768px) {
+            header { padding: 15px 5%; }
+            .logo { font-size: 22px; }
+            nav a { margin-left: 12px; }
+            .hero { width: 92%; min-height: 300px; padding: 35px; }
+            .hero-text h1 { font-size: 35px; }
+            .hero-text p { font-size: 16px; }
+            .planner { grid-template-columns: 1fr; }
+            .task-form { grid-template-columns: 1fr 1fr; }
+            .add-button { width: 100%; }
+            .side { margin-top: 5px; }
+        }
+
+        @media screen and (max-width: 480px) {
+            header { display: block; text-align: center; padding: 15px; }
+            .logo { margin-bottom: 15px; }
+            nav a { display: inline-block; margin: 5px 10px; }
+            .hero { width: 95%; min-height: 280px; padding: 30px 20px; text-align: center; justify-content: center; }
+            .hero-text h1 { font-size: 30px; }
+            .hero-text p { font-size: 15px; }
+            .hero button { width: 100%; }
+            .main { width: 95%; }
+            .title { font-size: 20px; }
+            .tasks, .side { padding: 15px; }
+            .task-form { grid-template-columns: 1fr; }
+            .task-form input, .task-form select, .add-button { width: 100%; }
+            .delete-button { float: none; display: block; margin-top: 10px; width: 100%; }
+            .counter-number { font-size: 30px; }
+            footer { text-align: center; padding: 25px 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo" onclick="switchPage('home')">
+            STUDYBUDDY
+        </div>
+        <nav>
+            <a onclick="switchPage('home')" id="nav-home" class="active">Home</a>
+            <a onclick="switchPage('planner')" id="nav-planner">Planner</a>
+            <a onclick="switchPage('subjects')" id="nav-subjects">Subjects</a>
+            <a onclick="switchPage('about')" id="nav-about">About</a>
+        </nav>
+    </header>
+
+    <section id="page-home" class="page-section active">
+        <section class="hero">
+            <div class="hero-text">
+                <h1>Plan Your Study.</h1>
+                <p>Organize your tasks and stay on track.</p>
+                <button onclick="switchPage('planner')">Start Planning</button>
+            </div>
+        </section>
+    </section>
+
+    <section id="page-planner" class="page-section">
+        <div class="main">
+            <h2 class="title">STUDY PLANNER</h2>
+            <div class="planner">
+                <div class="tasks">
+                    <h2>My Study Tasks</h2>
+                    <div class="task-form">
+                        <input type="text" id="taskInput" placeholder="Enter task">
+                        <select id="subjectInput">
+                            <option>DISASTER RISK REDUCTION</option>
+                            <option>GENERAL ORIENTATION</option>
+                            <option>INTRODUCTION TO COMPUTING</option>
+                            <option>IT ORIENTATION</option>
+                            <option>IT PROGRAMMING</option>
+                            <option>IT PROJECT-1</option>
+                            <option>PATHFIT-1</option>
+                            <option>PROGRAM LOGIC FORMULATION</option>
+                            <option>UNDERSTANDING THE SELF</option>
+                        </select>
+                        <input type="date" id="dateInput">
+                        <button class="add-button" onclick="addTask()">Add Task</button>
+                    </div>
+
+                    <input class="search" type="text" id="searchInput" placeholder="Search tasks..." onkeyup="searchTask()">
+
+                    <div id="taskList">
+                    </div>
+                </div>
+
+                <div class="side">
+                    <div class="counter">
+                        <h2>My Progress</h2>
+                        <p>Total Tasks</p>
+                        <div class="counter-number" id="total">0</div>
+                        <p>Completed Tasks</p>
+                        <div class="counter-number" id="completed">0</div>
+                        <p>Remaining Tasks</p>
+                        <div class="counter-number" id="remaining">0</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="page-subjects" class="page-section">
+        <div class="main">
+            <h2 class="title">MY SUBJECTS</h2>
+            <div class="subjects-grid" id="subjectsGrid">
+            </div>
+        </div>
+    </section>
+
+    <section id="page-about" class="page-section">
+        <div class="main">
+            <div class="about-card">
+                <h2>About StudyBuddy</h2>
+                <p>StudyBuddy is a simple study planner made to help students organize their school tasks.</p>
+                <p>Plan your tasks, complete your activities, and keep track of your studies.</p>
+                <div class="team-list">
+                    <h3>Development Team</h3>
+                    <p>&bull; Kent Wilhelm Pabelonio</p>
+                    <p>&bull; Justin Brillo</p>
+                    <p>&bull; Gabriel Andrei Nolasco</p>
+                    <p>&bull; Gabriel Oporto</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <h2>STUDYBUDDY</h2>
+        <p>Simple Study Planner for Students</p>
+        <p>Stay organized. Stay focused. Keep learning.</p>
+    </footer>
+
+    <script>
+        function switchPage(pageId) {
+            var sections = document.getElementsByClassName("page-section");
+            var i = 0;
+            
+            for (i = 0; i < sections.length; i++) {
+                sections[i].classList.remove("active");
+            }
+
+            var targetPage = document.getElementById("page-" + pageId);
+            targetPage.classList.add("active");
+
+            var navLinks = document.getElementsByTagName("a");
+            for (i = 0; i < navLinks.length; i++) {
+                navLinks[i].classList.remove("active");
+            }
+
+            var activeNav = document.getElementById("nav-" + pageId);
+            if (activeNav) {
+                activeNav.classList.add("active");
+            }
+
+            if (pageId === "subjects") {
+                renderSubjects();
+            }
+
+            window.scrollTo(0, 0);
+        }
+
+        function renderSubjects() {
+            var tasks = document.getElementsByClassName("task");
+            var grid = document.getElementById("subjectsGrid");
+            var htmlContent = "";
+            var i = 0;
+
+            if (tasks.length === 0) {
+                grid.innerHTML = "<p style='color: rgb(102, 102, 102);'>No subjects added yet. Create a task in the planner to see your subjects here!</p>";
+                return;
+            }
+
+            for (i = 0; i < tasks.length; i++) {
+                var smallTag = tasks[i].getElementsByTagName("small")[0];
+                if (smallTag) {
+                    var text = smallTag.innerText;
+                    var subjectName = text.replace("-", "").trim();
+                    
+                    if (subjectName !== "") {
+                        htmlContent = htmlContent + "<div class='subject-card'><h3>" + subjectName + "</h3></div>";
+                    }
+                }
+            }
+
+            if (htmlContent === "") {
+                grid.innerHTML = "<p style='color: rgb(102, 102, 102);'>No subjects added yet. Create a task in the planner to see your subjects here!</p>";
+            } else {
+                grid.innerHTML = htmlContent;
+            }
+        }
+
+        function addTask() {
+            var taskInput = document.getElementById("taskInput");
+            var subjectInput = document.getElementById("subjectInput");
+            var dateInput = document.getElementById("dateInput");
+
+            var taskText = taskInput.value;
+            var subjectText = subjectInput.value;
+            var dateText = dateInput.value;
+
+            if (taskText === "") {
+                alert("Please enter a task.");
+                return;
+            }
+
+            var list = document.getElementById("taskList");
+            
+            var existingContent = list.innerHTML;
+            var newCardHTML = "<div class='task'>" +
+                "<input type='checkbox' onclick='completeTask(this)'>" +
+                "<b>" + taskText + "</b> " +
+                "<small>- " + subjectText + " " + dateText + "</small>" +
+                "<button class='delete-button' onclick='deleteTask(this)'>Delete</button>" +
+                "</div>";
+
+            list.innerHTML = existingContent + newCardHTML;
+
+            taskInput.value = "";
+            dateInput.value = "";
+
+            updateProgress();
+        }
+
+        function deleteTask(button) {
+            var taskCard = button.parentElement;
+            taskCard.remove();
+            updateProgress();
+        }
+
+        function completeTask(checkbox) {
+            var taskCard = checkbox.parentElement;
+            if (checkbox.checked) {
+                taskCard.style.textDecoration = "line-through";
+            } else {
+                taskCard.style.textDecoration = "none";
+            }
+            updateProgress();
+        }
+
+        function updateProgress() {
+            var tasks = document.getElementsByClassName("task");
+            var totalCount = tasks.length;
+            var completedCount = 0;
+            var i = 0;
+
+            for (i = 0; i < tasks.length; i++) {
+                var checkbox = tasks[i].getElementsByTagName("input")[0];
+                if (checkbox.checked) {
+                    completedCount = completedCount + 1;
+                }
+            }
+
+            var remainingCount = totalCount - completedCount;
+
+            document.getElementById("total").innerText = totalCount;
+            document.getElementById("completed").innerText = completedCount;
+            document.getElementById("remaining").innerText = remainingCount;
+        }
+
+        function searchTask() {
+            var searchInput = document.getElementById("searchInput");
+            var searchText = searchInput.value.toLowerCase();
+            var tasks = document.getElementsByClassName("task");
+            var i = 0;
+
+            for (i = 0; i < tasks.length; i++) {
+                var taskText = tasks[i].innerText.toLowerCase();
+                
+                if (taskText.indexOf(searchText) !== -1) {
+                    tasks[i].style.display = "block";
+                } else {
+                    tasks[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+</body>
+</html>
